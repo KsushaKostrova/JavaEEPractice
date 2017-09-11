@@ -1,11 +1,13 @@
 package com.kostrova.tv.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.enterprise.inject.Vetoed;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 @Vetoed
@@ -18,6 +20,8 @@ public class Address implements Serializable {
 	private String city;
 	private String street;
 	private String house;
+	@OneToMany(mappedBy="address")
+	private List<Order> orders;
 
 	public Integer getId() {
 		return id;

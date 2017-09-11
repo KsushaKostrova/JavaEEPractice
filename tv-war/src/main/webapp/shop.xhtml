@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<title>TV Shop</title>
+</h:head>
+
+<h:body>
+	<h2>List of goods</h2>
+	<h:form id="form">
+		<p:carousel value="#{shopView.goods}" headerText="Goods" var="good"
+			itemStyle="text-align:center" responsive="true">
+			<p:panelGrid columns="2" style="width:100%;margin:10px 0px"
+				columnClasses="label,value" layout="grid"
+				styleClass="ui-panelgrid-blank">
+				<f:facet name="header">
+					<p:graphicImage name="C:/Users/kostrova/javaee2/tv-war/src/main/webapp/resources/images/samsung_ue32j4000ak.jpg" />
+				</f:facet>
+
+				<h:outputText value="Id:" />
+				<h:outputText value="#{good.id}" />
+
+				<h:outputText value="Name:" />
+				<h:outputText value="#{good.name}" />
+
+				<h:outputText value="Quantity:" />
+				<h:outputText value="#{good.quantity}" />
+
+				<h:outputText value="Price" />
+				<h:outputText value="$#{good.price}" />
+
+				<f:facet name="footer">
+					<p:commandButton value="-" action="#{shopView.decreaseChosenNumber}" update="growl"/>
+					<p:outputLabel value="#{shopView.getChosenNumber}" update="growl"/>
+					<p:commandButton value="+" action="#{shopView.increaseChosenNumber}" update="growl" />
+					<p:growl globalOnly="true" sticky="true" id="growl" />
+				</f:facet>
+			</p:panelGrid>
+		</p:carousel>
+	</h:form>
+</h:body>
+</html>

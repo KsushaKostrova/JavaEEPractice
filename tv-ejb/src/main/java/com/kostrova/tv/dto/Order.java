@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 
 @Entity(name = "Orders")
@@ -27,6 +28,7 @@ public class Order implements Serializable {
 	@JoinTable(name = "ORDER_GOOD", joinColumns = @JoinColumn(name = "ORDER_ID", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "GOOD_ID", referencedColumnName = "id"))
 	private List<Good> goods;
 	private User user;
+	@ManyToOne
 	private Address address;
 
 	public Integer getId() {

@@ -9,9 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 
 @Entity
 @Vetoed
+@NamedQuery(name = "getGoods", query = "SELECT g FROM Good g")
 public class Good implements Serializable {
 	private static final long serialVersionUID = -4272549359192422039L;
 
