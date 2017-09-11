@@ -1,0 +1,30 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+	version="2.1">
+
+	<persistence-unit name="TvStoreUnit" transaction-type="JTA">
+		<jta-data-source>jdbc/tvStore</jta-data-source>
+
+		<class>com.kostrova.tv.dto.User</class>
+		<class>com.kostrova.tv.dto.Good</class>
+		<class>com.kostrova.tv.dto.Order</class>
+		<class>com.kostrova.tv.dto.Address</class>
+
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver" />
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:derby://localhost:1527/tvStore;create=true" />
+			<property name="javax.persistence.jdbc.user" value="APP" />
+			<property name="javax.persistence.jdbc.password" value="APP" />
+
+			<property name="javax.persistence.schema-generation.database.action"
+				value="drop-and-create" />
+			<property name="javax.persistence.sql-load-script-source"
+				value="import.sql" />
+
+			<property name="eclipselink.logging.level" value="FINEST" />
+		</properties>
+	</persistence-unit>
+</persistence>

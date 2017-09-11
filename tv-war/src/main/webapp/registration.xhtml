@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<title>TV Shop</title>
+</h:head>
+
+<h:body>
+	<h2>Registration</h2>
+	<h:form>
+		<p:panelGrid columns="2">
+			<p:outputLabel for="loginInputId" value="Login:" />
+			<p:inputText id="loginInputId" value="#{regView.user.login}" />
+
+			<p:outputLabel for="passInputId" value="Password:" />
+			<p:password id="passInputId" value="#{regView.user.password}" />
+
+			<p:outputLabel for="confirmInputId" value="Confirm Password:" />
+			<p:password id="confirmInputId" value="#{regView.user.password}" />
+
+			<p:outputLabel for="fnameInputId" value="First Name:" />
+			<p:inputText id="fnameInputId" value="#{regView.user.firstName}" />
+
+			<p:outputLabel for="lnameInputId" value="Last Name:" />
+			<p:inputText id="lnameInputId" value="#{regView.user.lastName}" />
+		</p:panelGrid>
+
+		<p:commandButton value="OK" action="#{regView.register}"
+			update="growl" />
+		<p:growl globalOnly="true" sticky="true" id="growl" />
+	</h:form>
+</h:body>
+</html>
