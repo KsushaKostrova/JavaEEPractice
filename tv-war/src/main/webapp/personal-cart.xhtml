@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<title>TV Shop</title>
+</h:head>
+
+<h:body>
+	<h2>Your cart</h2>
+	<h:form id="cart_form">
+		<p:dataTable var="cart" value="#{cartView.draftOrders}">
+			<p:column headerText="Choose">
+				<p:selectManyCheckbox id="basic"
+					value="#{cartView.selectedDraftGoods}">
+					<f:selectItem itemLabel="#{cart.good.id}" itemValue="#{cart.good}" />
+				</p:selectManyCheckbox>
+			</p:column>
+
+			<p:column headerText="Good">
+				<h:outputText value="#{cart.good.name}" />
+			</p:column>
+
+			<p:column headerText="Price">
+				<h:outputText value="#{cart.good.price}" />
+			</p:column>
+		</p:dataTable>
+		<p:commandButton value="To make order" action="make-order?faces-redirect=true" />
+	</h:form>
+</h:body>
+</html>

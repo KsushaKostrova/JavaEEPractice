@@ -19,7 +19,7 @@
 				columnClasses="label,value" layout="grid"
 				styleClass="ui-panelgrid-blank">
 				<f:facet name="header">
-					<p:graphicImage name="C:/Users/kostrova/javaee2/tv-war/src/main/webapp/resources/images/samsung_ue32j4000ak.jpg" />
+					<p:graphicImage name="src/main/webapp/resources/images/samsung.jpg" />
 				</f:facet>
 
 				<h:outputText value="Id:" />
@@ -35,13 +35,33 @@
 				<h:outputText value="$#{good.price}" />
 
 				<f:facet name="footer">
-					<p:commandButton value="-" action="#{shopView.decreaseChosenNumber}" update="growl"/>
-					<p:outputLabel value="#{shopView.getChosenNumber}" update="growl"/>
-					<p:commandButton value="+" action="#{shopView.increaseChosenNumber}" update="growl" />
-					<p:growl globalOnly="true" sticky="true" id="growl" />
+					<h:panelGroup id="result">
+						<p:commandButton value="-"
+							action="#{shopView.decreaseChosenNumber}" update="growl2 chosen">
+							<f:setPropertyActionListener value="#{good}"
+								target="#{shopView.selectedGood}" />
+						</p:commandButton>
+						<p:outputLabel value="#{shopView.selectedGood.quantity}"
+							id="chosen" />
+						<p:commandButton value="+"
+							action="#{shopView.increaseChosenNumber}" update="growl2 chosen">
+							<f:setPropertyActionListener value="#{good}"
+								target="#{shopView.selectedGood}" />
+						</p:commandButton>
+						<p:growl globalOnly="true" sticky="true" id="growl2" />
+					</h:panelGroup>
+					<h:panelGroup id="add">
+						<p:commandButton value="Add to cart" style="float:right"
+							action="#{shopView.addToCart}">
+							<f:setPropertyActionListener value="#{good}"
+								target="#{shopView.selectedGood}" />
+						</p:commandButton>
+					</h:panelGroup>
 				</f:facet>
 			</p:panelGrid>
 		</p:carousel>
+		<p:commandButton value="Go to personal cart"
+			action="personal-cart?faces-redirect=true" />
 	</h:form>
 </h:body>
 </html>

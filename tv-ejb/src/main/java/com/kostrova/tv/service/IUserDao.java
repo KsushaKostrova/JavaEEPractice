@@ -1,5 +1,7 @@
 package com.kostrova.tv.service;
 
+import java.util.List;
+
 import com.kostrova.tv.dto.User;
 
 public interface IUserDao {
@@ -8,4 +10,5 @@ public interface IUserDao {
 	
 	boolean isPasswordCorrect(String login, String password);
 
+	User getUserByLogin(String login);
 }

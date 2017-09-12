@@ -11,6 +11,26 @@
 </h:head>
 
 <h:body>
-	<h2></h2>
+	<h2>Making order</h2>
+	<h:form>
+		<p:panelGrid columns="2">
+			<p:outputLabel for="nameId" value="Name:" />
+			<h:outputText id="nameId"
+				value="#{orderingView.loginView.user.firstName}" />
+
+			<p:outputLabel for="cityId" value="City:" />
+			<p:inputText id="cityId" value="#{orderingView.order.address.city}" />
+			
+			<p:outputLabel for="streetId" value="Street:" />
+			<p:inputText id="streetId" value="#{orderingView.order.address.street}" />
+			
+			<p:outputLabel for="houseId" value="House:" />
+			<p:inputText id="houseId" value="#{orderingView.order.address.house}" />
+		</p:panelGrid>
+
+		<p:commandButton value="Back" update="growl" />
+		<p:commandButton value="Next" style="float:right" update="growl" />
+		<p:growl globalOnly="true" sticky="true" id="growl" />
+	</h:form>
 </h:body>
 </html>

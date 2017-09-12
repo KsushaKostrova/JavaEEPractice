@@ -32,4 +32,16 @@ public class UserDaoImpl implements IUserDao {
 		return (result != null && result.size() == 1);
 	}
 
+	@Override
+	public User getUserByLogin(String login) {
+		if (login == null || login.isEmpty()) {
+			return null;
+		}
+
+		User result = em.createNamedQuery("getByLogin", User.class).setParameter(1, login).getSingleResult();
+		if (result != null)
+			return result;
+		else return null;
+	}
+
 }
