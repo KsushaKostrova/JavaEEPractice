@@ -9,11 +9,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
 @Vetoed
-@NamedQuery(name = "getGoods", query = "SELECT g FROM Good g")
+@NamedQueries({ @NamedQuery(name = "getGoods", query = "SELECT g FROM Good g"),
+		@NamedQuery(name = "getGoodByIdFromCart", query = "SELECT c.good FROM Cart c WHERE c.good.id=?1") })
 public class Good implements Serializable {
 	private static final long serialVersionUID = -4272549359192422039L;
 

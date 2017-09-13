@@ -18,4 +18,10 @@ public class GoodDaoImpl implements IGoodDao {
 		return em.createNamedQuery("getGoods", Good.class).getResultList();
 	}
 
+	@Override
+	public Good getGoodById(Integer id) {
+		Good good = (Good) em.createNamedQuery("getGoodByIdFromCart").setParameter(1, id).getSingleResult();
+		return good;
+	}
+
 }

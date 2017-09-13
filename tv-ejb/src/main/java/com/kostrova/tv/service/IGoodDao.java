@@ -7,4 +7,6 @@ import com.kostrova.tv.dto.Good;
 public interface IGoodDao {
 
 	List<Good> getGoods();
+	
+	Good getGoodById(Integer id);
 }

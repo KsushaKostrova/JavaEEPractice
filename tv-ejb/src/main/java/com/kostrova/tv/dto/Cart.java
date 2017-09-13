@@ -14,6 +14,7 @@ public class Cart {
 	@Id
 	@GeneratedValue
 	private Integer id;
+	@OneToOne
 	private Good good;
 	@OneToOne
 	private User user;

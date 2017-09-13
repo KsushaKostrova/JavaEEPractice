@@ -27,6 +27,14 @@ public class Address implements Serializable {
 		return id;
 	}
 
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
