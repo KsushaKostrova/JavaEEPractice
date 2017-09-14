@@ -5,26 +5,34 @@ import java.time.LocalDateTime;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.event.FlowEvent;
 
 import com.kostrova.tv.dto.Address;
 import com.kostrova.tv.dto.Good;
 import com.kostrova.tv.dto.Order;
+import com.kostrova.tv.dto.OrderedGood;
 import com.kostrova.tv.dto.User;
+import com.kostrova.tv.service.ICartDao;
 import com.kostrova.tv.service.IOrderDao;
+import com.kostrova.tv.service.IOrderedGood;
 import com.kostrova.tv.service.IUserDao;
 
 @Named
-@ConversationScoped
+//@ConversationScoped
+@ViewScoped
 public class OrderingView implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	private Good[] draftGoods;
+	@ManagedProperty(value="#{cartView}")
 	@Inject
 	private CartView cartView;
+	@Inject
+	private ICartDao cartDao;
 	@Inject
 	private IOrderDao orderDao;
 	@Inject
@@ -39,6 +47,8 @@ public class OrderingView implements Serializable {
 	private Conversation conversation;
 	private String goodNames = "";
 	private String quantities = "";
+	@Inject
+	private IOrderedGood orderedG;
 
 	@PostConstruct
 	public void init() {
@@ -47,14 +57,6 @@ public class OrderingView implements Serializable {
 		if (!FacesContext.getCurrentInstance().isPostback() && conversation.isTransient()) {
 			conversation.begin();
 		}
-	}
-
-	public void makeOrder() {
-
-	}
-
-	public String next() {
-		order.setAddress(address);
 		order.setUser(user);
 		order.setGoods(cartView.getSelectedGoods());
 		order.setOrderTime(LocalDateTime.now());
@@ -64,11 +66,41 @@ public class OrderingView implements Serializable {
 		for (Good good : order.getGoods()) {
 			quantities = quantities + good.getQuantity();
 		}
-		return "ordering_second_page?faces-redirect=true";
+	}
+
+	public void addOrderedQuantities() {
+		for (Good good : order.getGoods()) {
+			OrderedGood orderedGood = new OrderedGood();
+			orderedGood.setGoodId(good.getId());
+			orderedGood.setQuantity(good.getQuantity());
+			orderedGood.setOrderId(order.getId());
+			orderedG.addOrderedGood(orderedGood);
+		}
+	}
+
+	public String onFlowProcess(FlowEvent event) {
+		return event.getNewStep();
+    }
+	
+	private void updateCartView(){
+		cartView.upd();
+}
+	
+	public ICartDao getCartDao() {
+		return cartDao;
+	}
+
+	public void setCartDao(ICartDao cartDao) {
+		this.cartDao = cartDao;
 	}
 
 	public String endConversation() {
-		orderDao.addOrder(order);
+	//	addressDao.addAddress(address);
+		order.setAddress(address);
+		orderDao.addOrder(order);		
+		cartDao.removeFromCart(cartView.getDraftOrders());
+		addOrderedQuantities();
+		updateCartView();
 		if (!conversation.isTransient()) {
 			conversation.end();
 		}
@@ -138,15 +170,7 @@ public class OrderingView implements Serializable {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
-
-	public Good[] getDraftGoods() {
-		return draftGoods;
-	}
-
-	public void setDraftGoods(Good[] draftGoods) {
-		this.draftGoods = draftGoods;
-	}
-
+	
 	public CartView getCartView() {
 		return cartView;
 	}

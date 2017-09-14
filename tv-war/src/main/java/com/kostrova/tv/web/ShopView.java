@@ -2,11 +2,14 @@ package com.kostrova.tv.web;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -24,7 +27,9 @@ public class ShopView implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private List<Good> goods = new ArrayList<Good>();
-
+	@ManagedProperty(value="#{cartView}")
+	@Inject
+	private CartView cartView;
 	private Good selectedGood;
 	@Inject
 	IGoodDao goodDao;
@@ -35,15 +40,44 @@ public class ShopView implements Serializable {
 	private ICartDao cartDao;
 	@Inject
 	private LoginView loginView;
-	
+	private Map<Integer, Integer> goodsMax = new HashMap<Integer, Integer>();
+
 	private Cart cart = new Cart();
 
 	@PostConstruct
 	public void init() {
 		goods.addAll(goodDao.getGoods());
+		setGoodsMax();
 		cart.setUser(userDao.getUserByLogin(loginView.getUser().getLogin()));
+		cart.setGoodOrderedQuantity(0);
 		selectedGood = new Good();
 		selectedGood.setQuantity(0);
+	}
+
+	public IUserDao getUserDao() {
+		return userDao;
+	}
+
+	public void setUserDao(IUserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Map<Integer, Integer> getGoodsMax() {
+		return goodsMax;
+	}
+
+	public void setGoodsMax() {
+		for (Good good : goods) {
+			goodsMax.put(good.getId(), good.getQuantity());
+		}
 	}
 
 	public List<Good> getGoods() {
@@ -51,20 +85,32 @@ public class ShopView implements Serializable {
 	}
 
 	public void increaseChosenNumber() {
-		selectedGood.setQuantity(selectedGood.getQuantity()+1);
+		int futureQuantity = selectedGood.getQuantity() + 1;
+		if (futureQuantity <= goodsMax.get(selectedGood.getId())) {
+			selectedGood.setQuantity(selectedGood.getQuantity() + 1);
+		}
 	}
 
 	public void decreaseChosenNumber() {
 		int currQuantity = selectedGood.getQuantity();
-		if (currQuantity > 0)
-			selectedGood.setQuantity(currQuantity-1);
+		if (currQuantity > 0) {
+			selectedGood.setQuantity(currQuantity - 1);
+		}
 	}
-	
+
 	public void addToCart() {
-		cart.setGood(selectedGood);
-		cartDao.addToCart(cart);
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "You have sucessfully added this good to your caret", null));
+		if (selectedGood.getQuantity() > 0) {
+			cart.setId(null);
+			cart.setGood(selectedGood);
+			cart.setGoodOrderedQuantity(selectedGood.getQuantity());
+			cartDao.addToCart(cart);
+			cartView.upd();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"You have sucessfully added this good to your caret", null));
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "You have chosen nothing", null));
+		}
 	}
 
 	public IGoodDao getGoodDao() {

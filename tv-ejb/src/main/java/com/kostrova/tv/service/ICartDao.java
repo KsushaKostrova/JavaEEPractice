@@ -9,5 +9,5 @@ public interface ICartDao {
 	void addToCart(Cart caret);
 
 	List<Cart> getCartByLogin(String login);
-
+	void removeFromCart(List<Cart> carts);
 }

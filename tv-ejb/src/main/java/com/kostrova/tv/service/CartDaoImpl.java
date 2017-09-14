@@ -29,4 +29,12 @@ public class CartDaoImpl implements ICartDao {
 			em.persist(cart);
 		}
 	}
+
+	@Override
+	public void removeFromCart(List<Cart> carts) {
+		for (Cart cart : carts) {
+			Cart c = em.find(Cart.class, cart.getId());
+			em.remove(c);
+		}
+	}
 }

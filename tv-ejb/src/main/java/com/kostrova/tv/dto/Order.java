@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.enterprise.inject.Vetoed;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -28,7 +29,7 @@ public class Order implements Serializable {
 	@JoinTable(name = "ORDER_GOOD", joinColumns = @JoinColumn(name = "ORDER_ID", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "GOOD_ID", referencedColumnName = "id"))
 	private List<Good> goods;
 	private User user;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Address address;
 
 	public Integer getId() {

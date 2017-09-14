@@ -1,7 +1,5 @@
 package com.kostrova.tv.service;
 
-import java.util.List;
-
 import com.kostrova.tv.dto.User;
 
 public interface IUserDao {

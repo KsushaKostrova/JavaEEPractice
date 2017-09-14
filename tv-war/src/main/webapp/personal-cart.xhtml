@@ -16,7 +16,7 @@
 		<p:dataTable var="cart" value="#{cartView.draftOrders}">
 			<p:column headerText="Choose">
 				<p:selectManyCheckbox id="basic"
-					value="#{cartView.selectedDraftGoods}">
+					value="#{cart.selectedGoodId}">
 					<f:selectItem var="#{cart.good.name}" itemLabel="" itemValue="#{cart.good.id}" />
 				</p:selectManyCheckbox>
 			</p:column>

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,7 +16,7 @@ import com.kostrova.tv.service.ICartDao;
 import com.kostrova.tv.service.IGoodDao;
 
 @Named
-@ApplicationScoped
+@SessionScoped
 public class CartView implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -36,17 +36,31 @@ public class CartView implements Serializable {
 	}
 
 	public String goToMakeOrder() {
-		if (selectedDraftGoods.size() > 0) {
-			for (String id : selectedDraftGoods) {
-				selectedGoods.add(goodDao.getGoodById(Integer.parseInt(id.trim())));
-	        }
-			return "make-order?faces-redirect=true";
-		} else {
-			new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nothing is selected", null);
-			return "personal-cart";
+		int counter = 0;
+		for (Cart cart : draftOrders) {
+			if (cart.getSelectedGoodId().size() > 0) {
+				for (String id : cart.getSelectedGoodId()) {
+					Good tempGood = goodDao.getGoodById(Integer.parseInt(id.trim()));
+					tempGood.setQuantity(cart.getGoodOrderedQuantity());
+					selectedGoods.add(tempGood);
+				}
+				counter++;
+			} else {
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nothing is selected", null);
+				return "personal-cart";
+			}
 		}
+		if (counter > 0) {
+			return "make-order?faces-redirect=true";
+		}
+		return "personal-cart";
 	}
-
+	
+	public void upd() {
+		draftOrders = cartDao.getCartByLogin(loginView.getUser().getLogin());
+		selectedGoods = new ArrayList<Good>();
+	}
+	
 	public List<Good> getSelectedGoods() {
 		return selectedGoods;
 	}

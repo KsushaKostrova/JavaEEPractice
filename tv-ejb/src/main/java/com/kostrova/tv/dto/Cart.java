@@ -1,5 +1,7 @@
 package com.kostrova.tv.dto;
 
+import java.util.List;
+
 import javax.enterprise.inject.Vetoed;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +18,10 @@ public class Cart {
 	private Integer id;
 	@OneToOne
 	private Good good;
+	private Integer goodOrderedQuantity;
 	@OneToOne
 	private User user;
+	private List<String> selectedGoodId;
 
 	public Integer getId() {
 		return id;
@@ -33,6 +37,14 @@ public class Cart {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Integer getGoodOrderedQuantity() {
+		return goodOrderedQuantity;
+	}
+
+	public void setGoodOrderedQuantity(Integer goodOrderedQuantity) {
+		this.goodOrderedQuantity = goodOrderedQuantity;
 	}
 
 	public Good getGood() {
@@ -66,6 +78,14 @@ public class Cart {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public List<String> getSelectedGoodId() {
+		return selectedGoodId;
+	}
+
+	public void setSelectedGoodId(List<String> selectedGoodId) {
+		this.selectedGoodId = selectedGoodId;
 	}
 
 	@Override

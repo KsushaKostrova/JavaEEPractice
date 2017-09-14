@@ -12,6 +12,7 @@
 		<class>com.kostrova.tv.dto.Order</class>
 		<class>com.kostrova.tv.dto.Address</class>
 		<class>com.kostrova.tv.dto.Cart</class>
+		<class>com.kostrova.tv.dto.OrderedGood</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver" />

@@ -19,11 +19,28 @@
 			</p:column>
 
 			<p:column headerText="Created">
-				<h:outputText value="#{order.timestamp}" />
+				<h:outputText value="#{order.orderTime}" />
 			</p:column>
 
 			<p:column headerText="Address">
 				<h:outputText value="#{order.address}" />
+			</p:column>
+
+			<p:column headerText="Good(s)">
+				<p:dataTable var="good" value="#{order.goods}">
+					<p:column headerText="goodName">
+						<h:outputText value="#{good.name}" />
+					</p:column>
+					
+					<p:column headerText="goodQuantity">
+						<h:outputText value="#{userData.getGoodQuantity(good.id,order.id)}" />
+					</p:column>
+					
+					<p:column headerText="goodPrice">
+						<h:outputText value="#{good.price}" />
+					</p:column>
+				</p:dataTable>
+
 			</p:column>
 		</p:dataTable>
 
