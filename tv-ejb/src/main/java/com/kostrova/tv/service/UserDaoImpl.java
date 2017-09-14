@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import com.kostrova.tv.dto.User;
@@ -33,15 +34,17 @@ public class UserDaoImpl implements IUserDao {
 	}
 
 	@Override
-	public User getUserByLogin(String login) {
+	public User getUserByLogin(String login) throws NoResultException {
 		if (login == null || login.isEmpty()) {
 			return null;
 		}
 
-		User result = em.createNamedQuery("getByLogin", User.class).setParameter(1, login).getSingleResult();
-		if (result != null)
+		User result = null;
+		try {
+			em.createNamedQuery("getByLogin", User.class).setParameter(1, login).getSingleResult();
 			return result;
-		else return null;
+		} catch (NoResultException ex) {
+			throw ex;
+		}
 	}
-
 }
