@@ -6,12 +6,14 @@ import javax.enterprise.inject.Vetoed;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 @Entity(name = "Cart")
 @Vetoed
-@NamedQuery(name = "getCartByLogin", query = "SELECT c FROM Cart c WHERE c.user.login=?1")
+@NamedQueries({@NamedQuery(name = "getCartByLogin", query = "SELECT c FROM Cart c WHERE c.user.login=?1"),
+	@NamedQuery(name = "getCartByGoodId", query = "SELECT c FROM Cart c WHERE c.good.id=?1")})
 public class Cart {
 	@Id
 	@GeneratedValue

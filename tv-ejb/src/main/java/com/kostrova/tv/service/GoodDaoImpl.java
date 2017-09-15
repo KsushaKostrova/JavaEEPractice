@@ -24,4 +24,12 @@ public class GoodDaoImpl implements IGoodDao {
 		return good;
 	}
 
+	@Override
+	public void updateQuantitiesInTable(List<Good> goods) {
+		for (Good good : goods) {
+			Good storedGood = em.find(Good.class, good.getId());
+			storedGood.setQuantity(storedGood.getQuantity() - good.getQuantity());
+			em.merge(storedGood);
+		}
+	}
 }

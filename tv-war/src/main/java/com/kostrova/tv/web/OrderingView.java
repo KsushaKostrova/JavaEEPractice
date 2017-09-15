@@ -19,6 +19,7 @@ import com.kostrova.tv.dto.Order;
 import com.kostrova.tv.dto.OrderedGood;
 import com.kostrova.tv.dto.User;
 import com.kostrova.tv.service.ICartDao;
+import com.kostrova.tv.service.IGoodDao;
 import com.kostrova.tv.service.IOrderDao;
 import com.kostrova.tv.service.IOrderedGood;
 import com.kostrova.tv.service.IUserDao;
@@ -31,12 +32,17 @@ public class OrderingView implements Serializable {
 	@ManagedProperty(value="#{cartView}")
 	@Inject
 	private CartView cartView;
+	@ManagedProperty(value="#{shopView}")
+	@Inject
+	private ShopView shopView;
 	@Inject
 	private ICartDao cartDao;
 	@Inject
 	private IOrderDao orderDao;
 	@Inject
 	private IUserDao userDao;
+	@Inject 
+	private IGoodDao goodDaoImpl;
 	@Inject
 	private LoginView loginView;
 	private Order order = new Order();
@@ -68,6 +74,22 @@ public class OrderingView implements Serializable {
 		}
 	}
 
+	public ShopView getShopView() {
+		return shopView;
+	}
+
+	public void setShopView(ShopView shopView) {
+		this.shopView = shopView;
+	}
+
+	public IOrderedGood getOrderedG() {
+		return orderedG;
+	}
+
+	public void setOrderedG(IOrderedGood orderedG) {
+		this.orderedG = orderedG;
+	}
+
 	public void addOrderedQuantities() {
 		for (Good good : order.getGoods()) {
 			OrderedGood orderedGood = new OrderedGood();
@@ -95,12 +117,13 @@ public class OrderingView implements Serializable {
 	}
 
 	public String endConversation() {
-	//	addressDao.addAddress(address);
 		order.setAddress(address);
 		orderDao.addOrder(order);		
 		cartDao.removeFromCart(cartView.getDraftOrders());
 		addOrderedQuantities();
 		updateCartView();
+		goodDaoImpl.updateQuantitiesInTable(order.getGoods());
+		shopView.upd();
 		if (!conversation.isTransient()) {
 			conversation.end();
 		}
@@ -193,5 +216,13 @@ public class OrderingView implements Serializable {
 
 	public void setLoginView(LoginView loginView) {
 		this.loginView = loginView;
+	}
+
+	public IGoodDao getGoodDaoImpl() {
+		return goodDaoImpl;
+	}
+
+	public void setGoodDaoImpl(IGoodDao goodDaoImpl) {
+		this.goodDaoImpl = goodDaoImpl;
 	}
 }

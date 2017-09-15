@@ -9,4 +9,6 @@ public interface IGoodDao {
 	List<Good> getGoods();
 	
 	Good getGoodById(Integer id);
+
+	void updateQuantitiesInTable(List<Good> goods);
 }

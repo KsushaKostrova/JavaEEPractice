@@ -41,10 +41,20 @@ public class UserDaoImpl implements IUserDao {
 
 		User result = null;
 		try {
-			em.createNamedQuery("getByLogin", User.class).setParameter(1, login).getSingleResult();
+			result = em.createNamedQuery("getByLogin", User.class).setParameter(1, login).getSingleResult();
 			return result;
 		} catch (NoResultException ex) {
 			throw ex;
+		}
+	}
+
+	@Override
+	public boolean userExists(String login) {
+		try {
+			em.createNamedQuery("getByLogin", User.class).setParameter(1, login).getSingleResult();
+			return true;
+		} catch (NoResultException ex) {
+			return false;
 		}
 	}
 }

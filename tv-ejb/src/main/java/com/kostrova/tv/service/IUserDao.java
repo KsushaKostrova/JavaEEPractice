@@ -9,4 +9,6 @@ public interface IUserDao {
 	boolean isPasswordCorrect(String login, String password);
 
 	User getUserByLogin(String login);
+	
+	boolean userExists(String login);
 }

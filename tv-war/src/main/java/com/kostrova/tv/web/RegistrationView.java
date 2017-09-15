@@ -25,8 +25,7 @@ public class RegistrationView {
 	// @Loggable
 	public String register() {
 		if (user.getPassword().equals(confirmedPassword)) {
-			try {
-				if (userDao.getUserByLogin(user.getLogin()) == null) {
+				if (!userDao.userExists(user.getLogin())) {
 					try {
 						userDao.addUser(user);
 						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -46,10 +45,6 @@ public class RegistrationView {
 							new FacesMessage(FacesMessage.SEVERITY_ERROR, "Such user already exists", null));
 					return null;
 				}
-			} catch (NoResultException ex) {
-				return null;
-			}
-
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Passwords do not match", null));

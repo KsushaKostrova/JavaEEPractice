@@ -5,9 +5,12 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import com.kostrova.tv.dto.Cart;
+import com.kostrova.tv.dto.Good;
+import com.kostrova.tv.dto.User;
 
 @Stateless
 public class CartDaoImpl implements ICartDao {
@@ -35,6 +38,16 @@ public class CartDaoImpl implements ICartDao {
 		for (Cart cart : carts) {
 			Cart c = em.find(Cart.class, cart.getId());
 			em.remove(c);
+		}
+	}
+
+	@Override
+	public boolean goodIsInCart(Good good) {
+		try {
+			em.createNamedQuery("getCartByGoodId", Cart.class).setParameter(1, good.getId()).getSingleResult();
+			return true;
+		} catch (NoResultException ex) {
+			return false;
 		}
 	}
 }

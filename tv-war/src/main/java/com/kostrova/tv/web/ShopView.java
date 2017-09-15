@@ -53,6 +53,12 @@ public class ShopView implements Serializable {
 		selectedGood = new Good();
 		selectedGood.setQuantity(0);
 	}
+	
+	public void upd() {
+		goods.clear();
+		goods.addAll(goodDao.getGoods());
+		setGoodsMax();
+	}
 
 	public IUserDao getUserDao() {
 		return userDao;
@@ -99,7 +105,7 @@ public class ShopView implements Serializable {
 	}
 
 	public void addToCart() {
-		if (selectedGood.getQuantity() > 0) {
+		if (selectedGood.getQuantity() > 0 && !cartDao.goodIsInCart(selectedGood)) {
 			cart.setId(null);
 			cart.setGood(selectedGood);
 			cart.setGoodOrderedQuantity(selectedGood.getQuantity());

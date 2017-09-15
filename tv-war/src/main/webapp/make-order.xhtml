@@ -45,7 +45,7 @@
 						<p:outputLabel id="goodsNamesId" value="#{orderingView.goodNames}" />
 
 						<p:outputLabel for="goodsQuantitiesId" value="Quantity:" />
-						<p:inputText id="goodsQuantitiesId" value="#{orderingView.quantities}" />
+						<p:outputLabel id="goodsQuantitiesId" value="#{orderingView.quantities}" />
 					</h:panelGrid>
 					<p:commandButton value="Submit" action="#{orderingView.endConversation}"
 						update="growl" process="@this" />
