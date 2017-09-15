@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 @Entity(name = "Cart")
 @Vetoed
 @NamedQueries({@NamedQuery(name = "getCartByLogin", query = "SELECT c FROM Cart c WHERE c.user.login=?1"),
-	@NamedQuery(name = "getCartByGoodId", query = "SELECT c FROM Cart c WHERE c.good.id=?1")})
+	@NamedQuery(name = "getCartByGoodId", query = "SELECT c FROM Cart c WHERE c.good.id=?1 and c.user.id=?2")})
 public class Cart {
 	@Id
 	@GeneratedValue

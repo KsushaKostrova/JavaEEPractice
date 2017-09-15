@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kostrova.tv.dto.Cart;
 import com.kostrova.tv.dto.Good;
+import com.kostrova.tv.dto.User;
 
 public interface ICartDao {
 
@@ -13,5 +14,5 @@ public interface ICartDao {
 	
 	void removeFromCart(List<Cart> carts);
 	
-	boolean goodIsInCart(Good good);
+	boolean goodIsInCart(Good good, User user);
 }

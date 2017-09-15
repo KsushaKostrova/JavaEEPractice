@@ -15,7 +15,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @Vetoed
 @NamedQueries({ @NamedQuery(name = "getGoods", query = "SELECT g FROM Good g"),
-		@NamedQuery(name = "getGoodByIdFromCart", query = "SELECT c.good FROM Cart c WHERE c.good.id=?1") })
+		@NamedQuery(name = "getGoodByIdFromCart", query = "SELECT c.good FROM Cart c WHERE c.good.id=?1 and c.user.id=?2") })
 public class Good implements Serializable {
 	private static final long serialVersionUID = -4272549359192422039L;
 

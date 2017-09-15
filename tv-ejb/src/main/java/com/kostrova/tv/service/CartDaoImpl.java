@@ -42,9 +42,10 @@ public class CartDaoImpl implements ICartDao {
 	}
 
 	@Override
-	public boolean goodIsInCart(Good good) {
+	public boolean goodIsInCart(Good good, User user) {
 		try {
-			em.createNamedQuery("getCartByGoodId", Cart.class).setParameter(1, good.getId()).getSingleResult();
+			em.createNamedQuery("getCartByGoodId", Cart.class).setParameter(1, good.getId())
+					.setParameter(2, user.getId()).getSingleResult();
 			return true;
 		} catch (NoResultException ex) {
 			return false;

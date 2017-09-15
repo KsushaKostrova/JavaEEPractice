@@ -40,7 +40,7 @@ public class CartView implements Serializable {
 		for (Cart cart : draftOrders) {
 			if (cart.getSelectedGoodId().size() > 0) {
 				for (String id : cart.getSelectedGoodId()) {
-					Good tempGood = goodDao.getGoodById(Integer.parseInt(id.trim()));
+					Good tempGood = goodDao.getGoodById(Integer.parseInt(id.trim()), cart.getUser());
 					tempGood.setQuantity(cart.getGoodOrderedQuantity());
 					selectedGoods.add(tempGood);
 				}

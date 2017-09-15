@@ -105,7 +105,7 @@ public class ShopView implements Serializable {
 	}
 
 	public void addToCart() {
-		if (selectedGood.getQuantity() > 0 && !cartDao.goodIsInCart(selectedGood)) {
+		if (selectedGood.getQuantity() > 0 && !cartDao.goodIsInCart(selectedGood, cart.getUser())) {
 			cart.setId(null);
 			cart.setGood(selectedGood);
 			cart.setGoodOrderedQuantity(selectedGood.getQuantity());
